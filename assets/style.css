@@ -1,0 +1,267 @@
+/* vim: fde=getline(v\:lnum)=~'^\\s*$'&&getline(v\:lnum+1)=~'\\S'?'<1'\:1 fdm=expr
+ */
+
+* {
+	margin: 0; padding: 0;
+	border: 0; outline: 0;
+	text-decoration: none;
+	vertical-align: baseline;
+	font-family: inherit; font-weight: inherit;
+	font-style: inherit; font-size: inherit;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+@font-face {
+	font-family: "IconCube";
+	src: url("IconCube.woff") format("woff");
+}
+
+html {
+	font-size: 16px;
+	text-align: center;
+	background: #ddd;
+	overflow-y: scroll;
+}
+
+body {
+	font: 1em monospace;
+	color: #333;
+	text-align: left;
+	display: inline-block;
+	margin: 4em auto;
+}
+
+header {
+	padding-bottom: 2em;
+	padding-right: 2.6rem;
+	margin-right: 1px;
+}
+
+footer {
+	color: #999;
+	text-align: right;
+	padding-right: 2.6rem;
+	margin-right: 1px;
+}
+
+h1 {
+	font-size: 1.6em;
+	font-weight: bold;
+}
+
+a {
+	color: #333;
+}
+
+#login {
+	position: absolute;
+	width: 50%;
+	top: 50%;
+	left: 50%;
+	margin: -5% 0 0 -25%;
+	text-align: center;
+}
+
+#uploadForm {
+	float: right;
+	padding-right: 2.6rem;
+	margin-right: 1px;
+}
+
+input {
+	padding: 0.25em 0.5em;
+	background: #ddd;
+	border: #999 1px solid;
+	border-top: #eee 1px solid;
+	border-left: #eee 1px solid;
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+input[type=password] {
+	font: small-caption;
+	letter-spacing: 0.1em;
+}
+input[type=search],
+input[type=password] {
+	box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+	border: #eee 1px solid;
+	border-top: #999 1px solid;
+	border-left: #999 1px solid;
+}
+input:focus {
+	background: #eee;
+}
+input:focus::-moz-placeholder {
+	color: transparent;
+}
+
+table {
+	border-collapse: collapse;
+	white-space: nowrap;
+	margin: 0.5em 0;
+	color: #999;
+}
+
+td {
+	border: 1px solid #bbb;
+	padding: 0.25em 0.5em;
+}
+td:nth-child(2) {
+	text-align: right;
+	width: 5em;
+}
+td:nth-child(3) {
+	max-width: 25em;
+	min-width: 25em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+td:nth-child(4) {
+	border: 1px solid transparent;
+}
+
+tr:hover {
+	background: #eee;
+	color: #333;
+	border: #999 1px double;
+	border-top: #fff 1px double;
+	border-left: #fff 1px double;
+}
+
+.trash {
+	font: 1.25em IconCube;
+	vertical-align: -0.25rem;
+	color: #999;
+	display: inline;
+	background: none;
+	visibility: hidden;
+}
+.trash:hover {
+	color: #333;
+}
+tr:hover .trash {
+	visibility: visible;
+}
+
+.file a:before {
+	font: 1.25em IconCube;
+	vertical-align: -0.25rem;
+	padding-right: 0.5rem;
+	content: "\e000";
+	color: #a9a9a9;
+}
+td:nth-child(3) a[href$=".bmp"]:before,
+td:nth-child(3) a[href$=".jpg"]:before,
+td:nth-child(3) a[href$=".jpeg"]:before,
+td:nth-child(3) a[href$=".png"]:before,
+td:nth-child(3) a[href$=".gif"]:before,
+td:nth-child(3) a[href$=".tif"]:before,
+td:nth-child(3) a[href$=".tiff"]:before,
+td:nth-child(3) a[href$=".svg"]:before,
+td:nth-child(3) a[href$=".ico"]:before {
+	content: "\e043";
+	color: #3cb371;
+}
+td:nth-child(3) a[href$=".doc"]:before,
+td:nth-child(3) a[href$=".txt"]:before,
+td:nth-child(3) a[href$=".log"]:before,
+td:nth-child(3) a[href$=".odt"]:before,
+td:nth-child(3) a[href$=".rtf"]:before,
+td:nth-child(3) a[href$=".tex"]:before {
+	content: "\e044";
+	color: gray;
+}
+td:nth-child(3) a[href$=".dat"]:before,
+td:nth-child(3) a[href$=".csv"]:before,
+td:nth-child(3) a[href$=".key"]:before,
+td:nth-child(3) a[href$=".keychain"]:before,
+td:nth-child(3) a[href$=".vcf"]:before,
+td:nth-child(3) a[href$=".xml"]:before,
+td:nth-child(3) a[href$=".css"]:before,
+td:nth-child(3) a[href$=".sass"]:before,
+td:nth-child(3) a[href$=".scss"]:before,
+td:nth-child(3) a[href$=".rss"]:before {
+	content: "\e048";
+	color: #7b68ee;
+}
+td:nth-child(3) a[href$=".pdf"]:before,
+td:nth-child(3) a[href$=".indd"]:before,
+td:nth-child(3) a[href$=".psd"]:before {
+	content: "\e045";
+	color: #708090;
+}
+td:nth-child(3) a[href$=".htm"]:before,
+td:nth-child(3) a[href$=".html"]:before,
+td:nth-child(3) a[href$=".js"]:before,
+td:nth-child(3) a[href$=".jsp"]:before,
+td:nth-child(3) a[href$=".php"]:before,
+td:nth-child(3) a[href$=".xhtml"]:before,
+td:nth-child(3) a[href$=".c"]:before,
+td:nth-child(3) a[href$=".class"]:before,
+td:nth-child(3) a[href$=".cs"]:before,
+td:nth-child(3) a[href$=".fla"]:before,
+td:nth-child(3) a[href$=".h"]:before,
+td:nth-child(3) a[href$=".java"]:before,
+td:nth-child(3) a[href$=".lua"]:before,
+td:nth-child(3) a[href$=".py"]:before,
+td:nth-child(3) a[href$=".pl"]:before,
+td:nth-child(3) a[href$=".sh"]:before,
+td:nth-child(3) a[href$=".swift"]:before {
+	content: "\e047";
+	color: peru;
+}
+td:nth-child(3) a[href$=".ttf"]:before,
+td:nth-child(3) a[href$=".otf"]:before,
+td:nth-child(3) a[href$=".woff"]:before,
+td:nth-child(3) a[href$=".bdf"]:before,
+td:nth-child(3) a[href$=".fon"]:before,
+td:nth-child(3) a[href$=".fnt"]:before,
+td:nth-child(3) a[href$=".eot"]:before {
+	content: "\e049";
+	color: #b8860b;
+}
+td:nth-child(3) a[href$=".7z"]:before,
+td:nth-child(3) a[href$=".cbr"]:before,
+td:nth-child(3) a[href$=".debe"]:before,
+td:nth-child(3) a[href$=".gz"]:before,
+td:nth-child(3) a[href$=".pkg"]:before,
+td:nth-child(3) a[href$=".rar"]:before,
+td:nth-child(3) a[href$=".rpm"]:before,
+td:nth-child(3) a[href$=".sitx"]:before,
+td:nth-child(3) a[href$=".zip"]:before,
+td:nth-child(3) a[href$=".apk"]:before,
+td:nth-child(3) a[href$=".app"]:before,
+td:nth-child(3) a[href$=".bat"]:before,
+td:nth-child(3) a[href$=".exe"]:before,
+td:nth-child(3) a[href$=".jar"]:before {
+	content: "\e011";
+	color: #cd5c5c;
+}
+td:nth-child(3) a[href$=".m3u"]:before,
+td:nth-child(3) a[href$=".m4a"]:before,
+td:nth-child(3) a[href$=".mid"]:before,
+td:nth-child(3) a[href$=".mp3"]:before,
+td:nth-child(3) a[href$=".mpa"]:before,
+td:nth-child(3) a[href$=".wav"]:before,
+td:nth-child(3) a[href$=".wma"]:before,
+td:nth-child(3) a[href$=".flac"]:before {
+	content: "\e041";
+	color: #6495ed;
+}
+td:nth-child(3) a[href$=".3gp"]:before,
+td:nth-child(3) a[href$=".avi"]:before,
+td:nth-child(3) a[href$=".swf"]:before,
+td:nth-child(3) a[href$=".m4v"]:before,
+td:nth-child(3) a[href$=".mov"]:before,
+td:nth-child(3) a[href$=".mp4"]:before,
+td:nth-child(3) a[href$=".mpg"]:before,
+td:nth-child(3) a[href$=".srt"]:before,
+td:nth-child(3) a[href$=".wmv"]:before,
+td:nth-child(3) a[href$=".webm"]:before,
+td:nth-child(3) a[href$=".mpeg"]:before {
+	content: "\e013";
+	color: #20b2aa;
+}
