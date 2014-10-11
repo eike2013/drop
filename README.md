@@ -10,7 +10,7 @@ CHANGELOG:
 + add some security: store `md5` hashes for the password
 + replace date_sort with a-z_sort without case sensitivity
 + add directory listing and navigation
-+ add hyperlinks to `\<h1>`
++ add hyperlinks to `<h1>`
 
 TODO:
 + add nice icon for folders
