@@ -1,6 +1,6 @@
 <?php
 // settings
-$password_md5 = 'f8319e90f45a540d5d0fe9477581b400';
+$password_md5 = ''; // md5sum($PASSWORD)
 $timeout  = '10';
 $dir      = './files/';
 
@@ -23,11 +23,11 @@ $_SESSION['LAST_ACTIVITY'] = time();
 // session cookie and reload
 if (isset($_POST['pass'])) {
 	$_SESSION['pass'] = $_POST['pass'];
-	header('Location: ./');
+	header('Location:./?dir='.$dir);
 }
 
 // permission
-if (isset($_SESSION['pass']) && ($_SESSION['pass'] == $password)) {
+if (isset($_SESSION['pass']) && (md5($_SESSION['pass']) == $password_md5)) {
 	$perm = true;
 } else {
 	$perm = false;
@@ -39,7 +39,11 @@ if (isset($_SESSION['pass']) && ($_SESSION['pass'] == $password)) {
 <head>
 
 	<meta charset="utf-8">
-	<title><?php echo (($perm) ? $dir : 'drop'); ?></title>
+	<title>
+	<?php 
+	echo (($perm) ? $dir : 'drop'); 
+	?>
+	</title>
 	<link rel="stylesheet" href="assets/style.css">
 
 </head>
@@ -58,41 +62,76 @@ if (isset($_SESSION['pass']) && ($_SESSION['pass'] == $password)) {
 	<script src="assets/filter.js"></script>
 
 	<header>
-		<h1><?php echo $dir; ?></h1>
+		<h1>
+		<?php
+		$title = explode("/", $dir);
+		$combined_path = "";		
+		for($i=0; $i<count($title)-1; $i++){		
+		$combined_path .= $title[$i] . "/"; 
+		echo '<a href="index.php?dir='.$combined_path.'">' .$title[$i].'</a>';
+		echo "/";
+		}
+		?>
+		</h1>
 	</header>
 
 	<input type="search" class="table-filter" data-table="order-table" placeholder="filter">
-	<form action="upload.php" method="POST" enctype='multipart/form-data' id="uploadForm">
-		<input type="hidden" name="dir" value="<?php echo $dir; ?>">
-		<input type="file" name="upload[]" multiple="multiple" style="display:none" id="hiddenUp" onchange="this.form.submit()">
-		<input type="button" onclick="document.getElementById('hiddenUp').click()" value="upload files">
-	</form>
-
-	<form action="./" method="POST" onsubmit="return confirm('Delete File?');">
+   <?php
+     // After upload, stay in current dir
+	  echo'<form action="./?dir=' .$dir. '" method="POST" onsubmit="return confirm(\'Delete File?\');">';
+	?>
 	<table class="order-table table">
 		<?php
 		// delete
 		if (isset($_POST['delete'])) {
 			unlink($_POST['delete']);
-			header('Location: ./');
+			header('Location:./?dir='.$dir);
 		}
 
 		$files = glob($dir.'*');
+		$files_lowercase = array_map('strtolower', $files);
+		array_multisort($files_lowercase, SORT_ASC, SORT_STRING, $files);
 
 		// readable filesize
-		array_multisort(array_map('filemtime', $files), SORT_NUMERIC, SORT_DESC, $files);
+		//array_multisort(array_map('filemtime', $files), SORT_NUMERIC, SORT_DESC, $files);
 		function human_filesize($bytes, $decimals = 1) {
 			$sz = "BKMG";
 			$factor = floor((strlen($bytes) - 1) / 3);
 			return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
 		}
+		// output statics
+		// first row: link to root (.)
+		if($dir != './files/') {
+			echo '<tr><td></td><td>Rootdir</td><td class="file"><a href="index.php?dir=./files/">.</a></td></tr>';
+		}
+		
+		// second row: link to parent dir (..)
+		// ...yes i know the code looks ugly...iterating two times the same function doesn't appeal to be maximum aesthetic! but it works :)
+		if($dir != './files/') {
+			$stringposition = strrpos ( $dir, '/');
+			$parentfolder = substr($dir,0,$stringposition);
+			$stringposition = strrpos ( $parentfolder, '/');
+			$parentfolder = substr($parentfolder,0,$stringposition);
+			echo '<tr><td></td><td>Parentdir</td><td class="file"><a href="index.php?dir='.$parentfolder.'/">..</a></td></tr>';
+		}
 
-		// output
+		// output dir's
 		for ($i = 0; $i < count($files); $i++) {
-			$basename = explode('.', basename($files[$i]),2)[1];
+			$stringposition = strrpos ($files[$i], '/');
+			$foldername = substr($files[$i],$stringposition+1);
+			if (!is_file($files[$i])) {
+				echo '<tr><td>'.date('Y-m-d H:i', filemtime($files[$i])).'</td><td>Folder</td><td class="file"><a href="index.php?dir='.$files[$i].'/">'.$foldername.'</a></td></tr>';
+	   	}
+	   }				
+				
+		// output files
+		for ($i = 0; $i < count($files); $i++) {
+			//$basename = explode('.', basename($files[$i]),2)[1];
+			$basename = basename($files[$i]);
 			if (is_file($files[$i])) {
-				echo '<tr><td>'.date('Y-m-d H:i', filemtime($files[$i])).'</td><td>'.human_filesize(filesize($files[$i])).'</td><td class="file"><a href="'.$files[$i].'" download="'.$basename.'">'.$basename.'</a></td><td><button class="trash" name="delete" value="'.$files[$i].'">&#xe001;</button></td></tr>';
-			}
+				//echo '<tr><td>'.date('Y-m-d H:i', filemtime($files[$i])).'</td><td>'.human_filesize(filesize($files[$i])).'</td><td class="file"><a href="'.$files[$i].'" download="'.$basename.'">'.$basename.'</a></td><td><button class="trash" name="delete" value="'.$files[$i].'">&#xe001;</button></td></tr>';
+				echo '<tr><td>'.date('Y-m-d H:i', filemtime($files[$i])).'</td><td>'.human_filesize(filesize($files[$i])).'</td><td class="file"><a href="'.$files[$i].'" download="'.$basename.'">'.$basename.'</a></td></tr>';
+		   }
 		}
 		?>
 
