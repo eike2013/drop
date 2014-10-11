@@ -1,11 +1,12 @@
 <?php
 // settings
-$password = 'pass';
+$password_md5 = 'f8319e90f45a540d5d0fe9477581b400';
 $timeout  = '10';
 $dir      = './files/';
 
-// TODO more directories?
-if (isset($_GET['dir'])) {
+// Check if dir is set and if it's in the root dir (./files/*)
+// Otherwise it'll point to it
+if (isset($_GET['dir']) && strpos($_GET['dir'],$dir) !== false) {
 	$dir = $_GET['dir'];
 }
 
