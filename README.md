@@ -6,9 +6,8 @@ Simple file uploader/explorer in php and javascript with icons.
 CHANGELOG:
 
 2014-10-11:
--deactivate the upload/remove buttons
-
-+ add some security: store md5 hashes for the password
++ deactivate the upload/remove buttons
++ add some security: store `md5` hashes for the password
 + replace date_sort with a-z_sort without case sensitivity
 + add directory listing and navigation
 + add hyperlinks to \<h1>
